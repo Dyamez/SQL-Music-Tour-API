@@ -9,6 +9,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // SEQUELIZE CONNECTION
+/*
+const sequelize = new Sequelize({
+  storage: process.env.PG_URI,
+  dialect: "postgres",
+  username: "postgres",
+  password: "chickboyz",
+});
+
+try {
+  console.log(process.env.PG_URI);
+  sequalize.authenticate();
+  console.log(`Im in the Matrix! on ${process.env.PG_URI}`);
+} catch (e) {
+  console.log("Your not connected");
+} */
+
+// SEQUELIZE CONNECTION
+/*
 const sequelize = new Sequelize(process.env.PG_URI);
 
 try {
@@ -16,12 +34,12 @@ try {
   console.log(`Connected with Sequelize at ${process.env.PG_URI}`);
 } catch (err) {
   console.log(`Unable to connect to PG: ${err}`);
-}
+} */
 
 // ROOT
 app.get("/", (req, res) => {
   res.status(200).json({
-    message: "Welcome to the Tour API",
+    message: "Welcome to the Jungle, Baby!",
   });
 });
 
