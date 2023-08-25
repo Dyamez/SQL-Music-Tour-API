@@ -23,11 +23,13 @@ events.get("/", async (req, res) => {
   }
 });
 
-events.get("/:id", async (req, res) => {
+events.get("/:name", async (req, res) => {
   try {
     const foundEvent = await Event.findOne({
       where: {
-        event_id: req.params.id,
+        name: {
+          [Op.iLike]: `%${req.params.name}%`,
+        },
       },
     });
     res.status(200).json(foundEvent);

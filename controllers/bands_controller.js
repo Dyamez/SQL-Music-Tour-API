@@ -2,11 +2,11 @@
 const bands = require("express").Router();
 const db = require("../models");
 const { Op } = require("sequelize");
-const { Band } = db;
+const { Band, MeetGreet, Event, SetTime } = db;
 
 // FIND ALL BANDS
 bands.get("/", async (req, res) => {
-  const { name = "", limit = 5, offset = 0 } = req.query;
+  const { name = "", limit = 20, offset = 0 } = req.query;
   try {
     const foundBands = await Band.findAll({
       order: [
@@ -25,16 +25,67 @@ bands.get("/", async (req, res) => {
   }
 });
 
-bands.get("/", async (req, res) => {
+bands.get("/:name", async (req, res) => {
   try {
     const foundBand = await Band.findOne({
       where: {
-        band_id: req.params.id,
+        name: req.params.name,
       },
+      include: [
+        {
+          model: MeetGreet,
+          as: "meet_greets",
+          attributes: {
+            exclude: ["meet_greet_id", "event_id", "band_id"],
+          },
+          include: {
+            model: Event,
+            attributes: {
+              exclude: ["event_id"],
+            },
+            as: "event",
+            where: {
+              name: {
+                [Op.like]: `%${req.query.event ? req.query.event : ""}%`,
+              },
+            },
+          },
+        },
+        {
+          model: SetTime,
+          as: "set_times",
+          attributes: {
+            exclude: ["meet_greet_id", "event_id", "band_id"],
+          },
+          include: {
+            model: Event,
+            as: "event",
+            where: {
+              name: {
+                [Op.like]: `%${req.query.event ? req.query.event : ""}%`,
+              },
+            },
+          },
+        },
+      ],
+      order: [
+        [
+          { model: MeetGreet, as: "meetGreets" },
+          { model: Event, as: "event" },
+          "date",
+          "ASC",
+        ],
+        [
+          { model: setTimes, as: "setTimes" },
+          { model: Event, as: "event" },
+          "date",
+          "ASC",
+        ],
+      ],
     });
     res.status(200).json(foundBand);
   } catch (error) {
-    res.status(500).json(e);
+    res.status(500).json(error);
   }
 });
 
