@@ -1,1 +1,1 @@
-## sqldm 5 creating-controllers-with-sequelize
+## Activity (sqldm-6-completing-the-music-tour-api)

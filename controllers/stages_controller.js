@@ -1,7 +1,7 @@
 const stages = require("express").Router();
 const db = require("../models");
 const { Op } = require("sequelize");
-const { Stage } = db;
+const { Stage, Event } = db;
 
 stages.get("/", async (req, res) => {
   try {
@@ -25,11 +25,19 @@ stages.get("/", async (req, res) => {
   }
 });
 
-stages.get("/:id", async (req, res) => {
+stages.get("/:name", async (req, res) => {
+  const { name: stageName = "" } = req.params;
   try {
+    console.log(stageName);
     const foundStage = await Stage.findOne({
       where: {
-        stage_id: req.params.id,
+        name: {
+          [Op.iLike]: `%${stageName}%`,
+        },
+      },
+      include: {
+        model: Event,
+        as: "events",
       },
     });
     res.status(200).json(foundStage);
