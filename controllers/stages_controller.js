@@ -30,6 +30,9 @@ stages.get("/:name", async (req, res) => {
   try {
     console.log(stageName);
     const foundStage = await Stage.findOne({
+      attributes: {
+        exclude: "stage_id",
+      },
       where: {
         name: {
           [Op.iLike]: `%${stageName}%`,
@@ -38,7 +41,23 @@ stages.get("/:name", async (req, res) => {
       include: {
         model: Event,
         as: "events",
+        attributes: {
+          exclude: ["event_id"],
+        },
+        through: {
+          attributes: [],
+        },
       },
+      order: [
+        [
+          {
+            model: Event,
+            as: "events",
+          },
+          "date",
+          "ASC",
+        ],
+      ],
     });
     res.status(200).json(foundStage);
   } catch (e) {
