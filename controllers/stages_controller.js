@@ -69,7 +69,7 @@ stages.post("/", async (req, res) => {
   try {
     const newStage = await Stage.create(req.body);
     res.status(200).json({
-      message: "Successfully created a stage",
+      message: "You did it!",
       data: newStage,
     });
   } catch (error) {
@@ -86,7 +86,7 @@ stages.put("/:id", async (req, res) => {
       },
     });
     res.status(200).json({
-      message: `successfully updated the stage`,
+      message: `successfully done what you wanted to do.`,
       updatedStage,
     });
   } catch (error) {
@@ -103,7 +103,7 @@ stages.delete("/:id", async (req, res) => {
       },
     });
     res.status(200).json({
-      message: `Successfully yeeted stage`,
+      message: `Very very Nice!`,
     });
   } catch (error) {
     res.status(500).json(error);

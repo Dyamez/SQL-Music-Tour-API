@@ -119,7 +119,7 @@ bands.put("/:id", async (req, res) => {
       },
     });
     res.status(200).json({
-      message: `successfully updated the band`,
+      message: `You are a genius!`,
       updatedBand,
     });
   } catch (error) {
@@ -136,7 +136,7 @@ bands.delete("/:id", async (req, res) => {
       },
     });
     res.status(200).json({
-      message: `Successfully yeeted band id: ${id}`,
+      message: `You made A band id: ${id}`,
     });
   } catch (error) {
     res.status(500).json(error);

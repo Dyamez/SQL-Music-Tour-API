@@ -102,7 +102,7 @@ events.post("/", async (req, res) => {
   try {
     const newEvent = await Event.create(req.body);
     res.status(200).json({
-      message: "Successfully created a event",
+      message: "You made an Event, alrighty!",
       data: newEvent,
     });
   } catch (error) {
@@ -119,7 +119,7 @@ events.put("/:id", async (req, res) => {
       },
     });
     res.status(200).json({
-      message: `successfully updated the event`,
+      message: `You did what you wanted, cool!`,
       updatedEvent,
     });
   } catch (error) {
@@ -136,7 +136,7 @@ events.delete("/:id", async (req, res) => {
       },
     });
     res.status(200).json({
-      message: `Successfully yeeted band id: ${deletedEvent.name}`,
+      message: `You made A band id: ${deletedEvent.name}`,
     });
   } catch (error) {
     res.status(500).json(error);
